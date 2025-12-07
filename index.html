@@ -234,6 +234,12 @@ function buildCalendar() {
     cell.onclick = () => {
       selectedDate = date;
       showDetail(date);
+
+      // ★ 画面下部の状況登録までスクロール
+      document.getElementById("detailArea").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     };
 
     const title = document.createElement("div");
