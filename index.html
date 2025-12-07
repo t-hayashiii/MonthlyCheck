@@ -532,19 +532,24 @@ document.getElementById("dlgSave").onclick = () => {
 
 
 /* ================================
-   初期化ボタン
+   初期化ボタン（チェック記録は保持）
 ================================ */
 document.getElementById("resetDataBtn").onclick = () => {
-  if (confirm("データを初期値に戻しますか？")) {
+  if (confirm("項目を初期値に戻します（記録は保持）。よろしいですか？")) {
+
+    // ★ 項目（exerciseMaster）のみ初期化
     exerciseMaster = JSON.parse(JSON.stringify(defaultExercises));
-    exerciseRecords = {};
+
+    // ★ 記録（exerciseRecords）は触らない！
     saveExercises(exerciseMaster);
     saveRecords(exerciseRecords);
+
     refreshManageList();
     buildCalendar();
-    showDetail(new Date());
+    showDetail(selectedDate);
   }
 };
+
 
 /* ================================
    全データ削除
