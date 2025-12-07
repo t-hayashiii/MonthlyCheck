@@ -10,10 +10,14 @@
 
   /* スマホ最適化 */
   @media (max-width: 640px) {
-    .calendar-cell { height: 110px !important; }
+    .calendar-cell { 
+      height: 105px !important; 
+      padding: 1px !important;
+    }
     .day-number { font-size: 15px !important; }
     .day-ex-item { font-size: 10px !important; }
-    .content-wrap { padding: 0.5rem !important; }
+    .content-wrap { padding: 0.3rem !important; }
+    .narrow-wrap { max-width: 100% !important; }
   }
 
   .dragging { opacity: 0.4; }
@@ -32,47 +36,50 @@
 </header>
 
 <!-- 上部の管理ボタン -->
-<div class="max-w-3xl mx-auto p-4 flex justify-end">
-  <button id="openManageBtn" class="text-blue-600 underline font-bold">
+<div class="max-w-full narrow-wrap mx-auto p-2 flex justify-end">
+  <button id="openManageBtn" class="text-blue-600 underline font-bold text-sm">
     データ管理へ
   </button>
 </div>
 
-<div class="max-w-3xl mx-auto p-4 content-wrap">
+<div class="max-w-full narrow-wrap mx-auto p-2 content-wrap">
 
-  <!-- ========== カレンダー ========== -->
-  <div id="calendarArea" class="bg-white shadow rounded p-4 mb-6">
+  <!-- ===== カレンダー ===== -->
+  <div id="calendarArea" class="bg-white shadow rounded p-2 mb-4">
 
-    <div class="flex justify-between items-center mb-2">
-      <button id="prevMonthBtn" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded">
+    <div class="flex justify-between items-center mb-1">
+      <button id="prevMonthBtn" class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">
         &lt; 前の月
       </button>
 
       <!-- 月タイトル（24px） -->
-      <h2 id="calendarTitle" class="text-2xl font-bold"></h2>
+      <h2 id="calendarTitle" class="text-xl font-bold"></h2>
 
-      <button id="nextMonthBtn" class="px-3 py-1 bg-gray-200 hover:bg-gray-300 rounded">
+      <button id="nextMonthBtn" class="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-sm">
         次の月 &gt;
       </button>
     </div>
 
-    <div class="grid grid-cols-7 text-center font-bold border-b pb-1 text-sm">
+    <div class="grid grid-cols-7 text-center font-bold border-b pb-1 text-xs">
       <div>月</div><div>火</div><div>水</div>
       <div>木</div><div>金</div><div>土</div><div>日</div>
     </div>
 
-    <div id="calendarGrid" class="grid grid-cols-7 gap-1 mt-2"></div>
+    <!-- 列幅を極限まで狭く -->
+    <div id="calendarGrid" class="grid grid-cols-7 gap-[1px] mt-1"></div>
   </div>
 
-  <!-- ========== 選択日の詳細 ========== -->
-  <div id="detailArea" class="bg-white shadow rounded p-4 mb-6">
-    <h2 id="detailTitle" class="text-lg font-bold mb-3"></h2>
-    <div id="exerciseList" class="space-y-2"></div>
+  <!-- ===== 選択日の詳細 ===== -->
+  <div id="detailArea" class="bg-white shadow rounded p-3 mb-6">
+    <h2 id="detailTitle" class="text-base font-bold mb-2"></h2>
+    <div id="exerciseList" class="space-y-1"></div>
   </div>
 
 </div><!-- wrapper -->
 
 </div><!-- /mainScreen -->
+
+
 <!-- ================================ -->
 <!-- データ管理画面 -->
 <!-- ================================ -->
@@ -83,35 +90,33 @@
 </header>
 
 <!-- メインに戻る（左寄せ） -->
-<div class="max-w-3xl mx-auto p-4 flex justify-start">
-  <button id="closeManageBtn" class="text-blue-600 underline font-bold">
+<div class="max-w-full narrow-wrap mx-auto p-2 flex justify-start">
+  <button id="closeManageBtn" class="text-blue-600 underline font-bold text-sm">
     メインに戻る
   </button>
 </div>
 
-<div class="max-w-3xl mx-auto p-4">
+<div class="max-w-2xl narrow-wrap mx-auto p-3">
 
   <!-- 習慣一覧（ドラッグ対応） -->
   <div id="exerciseMasterList" class="space-y-3 mb-6"></div>
 
   <!-- 新規追加 -->
   <button id="openNewDialog"
-          class="px-4 py-2 bg-blue-500 text-white rounded font-bold">
+          class="px-3 py-2 bg-blue-500 text-white rounded font-bold">
     新規追加
   </button>
 
-  <hr class="my-6"/>
+  <hr class="my-4"/>
 
-  <!-- 🔥 赤ボタン２つを横並びに -->
-  <div class="flex space-x-4">
+  <!-- 赤ボタン2つ -->
+  <div class="flex flex-col space-y-2">
 
-    <!-- 初期化（デフォルトに戻す） -->
     <button id="resetDataBtn" 
             class="px-4 py-2 bg-red-500 text-white rounded font-bold">
       全データを初期化する
     </button>
 
-    <!-- 全削除（データを空にする） -->
     <button id="deleteAllExercisesBtn"
             class="px-4 py-2 bg-red-500 text-white rounded font-bold">
       全データを削除する
@@ -125,21 +130,18 @@
 
 
 <!-- ================================ -->
-<!-- 新規 / 修正ダイアログ -->
+<!-- 新規／修正ダイアログ -->
 <!-- ================================ -->
 <div id="editDialog" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden">
   <div class="bg-white p-6 rounded shadow w-80">
 
     <h2 id="dialogTitle" class="font-bold text-lg mb-4"></h2>
 
-    <!-- 習慣名 -->
     <input id="dlgName" class="border p-1 w-full mb-3 text-sm" placeholder="習慣名" />
 
-    <!-- 曜日ボタン -->
     <div class="mb-1 text-sm font-bold">行う曜日</div>
     <div id="dlgWeekBtns" class="flex flex-wrap gap-1 mb-3"></div>
 
-    <!-- 動画リンク -->
     <input id="dlgLink" 
            class="border p-1 w-full mb-4 text-sm" 
            placeholder="動画リンク URL（任意）" />
@@ -155,9 +157,10 @@
 
   </div>
 </div>
+
 <script>
 /* ================================
-   ローカルストレージ I/O
+   ローカルストレージ
 ================================ */
 function loadExercises() {
   return JSON.parse(localStorage.getItem("exerciseMaster") || "null");
@@ -165,7 +168,6 @@ function loadExercises() {
 function saveExercises(data) {
   localStorage.setItem("exerciseMaster", JSON.stringify(data));
 }
-
 function loadRecords() {
   return JSON.parse(localStorage.getItem("exerciseRecords") || "{}");
 }
@@ -174,7 +176,7 @@ function saveRecords(data) {
 }
 
 /* ================================
-   初期データ
+   初期データ（あなた指定の完全版）
 ================================ */
 const defaultExercises = [
     { name: "目", days: ["月","火","水","木","金","土","日"], link: "" },
@@ -196,7 +198,6 @@ if (!exerciseMaster) {
   exerciseMaster = JSON.parse(JSON.stringify(defaultExercises));
   saveExercises(exerciseMaster);
 }
-
 let exerciseRecords = loadRecords();
 
 let currentDate = new Date();
@@ -214,7 +215,6 @@ function buildCalendar() {
 
   const firstDay = new Date(year, month, 1);
   const startWeek = (firstDay.getDay() + 6) % 7;
-
   const lastDay = new Date(year, month + 1, 0).getDate();
 
   const grid = document.getElementById("calendarGrid");
@@ -232,7 +232,7 @@ function buildCalendar() {
 
     const cell = document.createElement("div");
     cell.className =
-      "calendar-cell h-32 border rounded bg-white overflow-hidden p-1 cursor-pointer hover:bg-blue-50";
+      "calendar-cell h-32 border rounded bg-white overflow-hidden p-[1px] cursor-pointer hover:bg-blue-50";
 
     cell.onclick = () => {
       selectedDate = date;
@@ -240,22 +240,21 @@ function buildCalendar() {
     };
 
     const title = document.createElement("div");
-    title.className = "day-number font-bold mb-1 text-[15px]";
+    title.className = "day-number font-bold mb-1 text-[13px]";
     title.textContent = d;
     cell.appendChild(title);
 
     exerciseMaster.forEach(ex => {
       if (ex.days.includes(wday)) {
         const div = document.createElement("div");
-        div.className = "day-ex-item text-[10px] leading-tight";
-        div.classList.add("text-gray-400"); // ← 追加
+        div.className = "day-ex-item text-[9px] leading-tight text-gray-400";
         div.textContent = ex.name;
 
         const key = date.toISOString().slice(0,10);
         const rec = exerciseRecords[key]?.[ex.name];
         if (rec?.done) {
-        div.classList.remove("text-gray-400");
-        div.classList.add("text-blue-600", "font-bold");
+          div.classList.remove("text-gray-400");
+          div.classList.add("text-blue-600", "font-bold");
         }
 
         cell.appendChild(div);
@@ -279,7 +278,6 @@ document.getElementById("nextMonthBtn").onclick = () => {
    詳細表示
 ================================ */
 function showDetail(date) {
-  const y = date.getFullYear();
   const m = date.getMonth() + 1;
   const d = date.getDate();
   const w = ["日","月","火","水","木","金","土"][date.getDay()];
@@ -327,6 +325,7 @@ function showDetail(date) {
       } else {
         delete exerciseRecords[key][ex.name];
       }
+
       saveRecords(exerciseRecords);
       showDetail(date);
       buildCalendar();
@@ -334,6 +333,7 @@ function showDetail(date) {
 
     row.appendChild(chk);
     row.appendChild(name);
+
     if (ex.link) {
       const btn = document.createElement("a");
       btn.href = ex.link;
@@ -343,8 +343,8 @@ function showDetail(date) {
         "px-2 py-1 text-xs bg-gray-300 rounded mr-3 hover:bg-gray-400";
       row.appendChild(btn);
     }
-    row.appendChild(time);
 
+    row.appendChild(time);
     list.appendChild(row);
   });
 }
@@ -365,7 +365,7 @@ document.getElementById("closeManageBtn").onclick = () => {
   showDetail(selectedDate);
 };
 
-/* --- 習慣一覧生成（ドラッグ対応） --- */
+/* --- 一覧 --- */
 function refreshManageList() {
   const list = document.getElementById("exerciseMasterList");
   list.innerHTML = "";
@@ -431,7 +431,7 @@ function refreshManageList() {
 }
 
 /* ================================
-   新規 / 修正ダイアログ
+   新規・修正ダイアログ
 ================================ */
 const dialog = document.getElementById("editDialog");
 let editingIndex = null;
@@ -486,24 +486,20 @@ document.getElementById("dlgCancel").onclick = () => {
 
 document.getElementById("dlgSave").onclick = () => {
   const name = document.getElementById("dlgName").value.trim();
-  if (!name) {
-    alert("習慣名を入力してください");
-    return;
-  }
-  const link = document.getElementById("dlgLink").value.trim();
+  if (!name) { alert("習慣名を入力してください"); return; }
 
+  const link = document.getElementById("dlgLink").value.trim();
   const days = [];
+
   document.querySelectorAll("#dlgWeekBtns button").forEach(b => {
     if (b.classList.contains("bg-blue-500")) days.push(b.textContent);
   });
 
   const item = { name, link, days };
 
-  if (editingIndex == null) {
-    exerciseMaster.push(item);
-  } else {
-    exerciseMaster[editingIndex] = item;
-  }
+  if (editingIndex == null) exerciseMaster.push(item);
+  else exerciseMaster[editingIndex] = item;
+
   saveExercises(exerciseMaster);
 
   dialog.classList.add("hidden");
@@ -513,7 +509,7 @@ document.getElementById("dlgSave").onclick = () => {
 };
 
 /* ================================
-   初期化ボタン（既存）
+   初期化・全削除
 ================================ */
 document.getElementById("resetDataBtn").onclick = () => {
   if (confirm("データを初期値に戻しますか？")) {
@@ -527,9 +523,6 @@ document.getElementById("resetDataBtn").onclick = () => {
   }
 };
 
-/* ================================
-   ★ 全データ削除（今回追加）
-================================ */
 document.getElementById("deleteAllExercisesBtn").onclick = () => {
   if (confirm("登録済みの習慣データをすべて削除します。よろしいですか？")) {
     exerciseMaster = [];
@@ -548,6 +541,7 @@ document.getElementById("deleteAllExercisesBtn").onclick = () => {
 ================================ */
 buildCalendar();
 showDetail(selectedDate);
+
 </script>
 
 </body>
